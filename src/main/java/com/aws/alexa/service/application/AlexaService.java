@@ -51,6 +51,7 @@ public class AlexaService {
 
     private SelfServiceResponse getIntentResponse(IntentRequest intentRequest, SelfServiceRequest alexaRequest) {
         if (validateMsisdn(alexaRequest.session, intentRequest.getIntent())) {
+            alexaRequest.session.attributes.put("previousIntent", intentRequest.getIntent().getName());
             return new SelfServiceResponse(
                     alexaRequest.version,
                     alexaRequest.session.attributes,
@@ -62,7 +63,6 @@ public class AlexaService {
                             null
                     ));
         }
-        alexaRequest.session.attributes.put("previousIntent", intentRequest.getIntent().getName());
         LOGGER.info("Intent name is :"+intentRequest.getIntent().getName());
         if (intentRequest.getIntent().getName().equalsIgnoreCase("GetInvoiceIntent")) {
             return getInvoiceResponse(intentRequest, alexaRequest);
