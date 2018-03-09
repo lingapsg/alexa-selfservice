@@ -54,7 +54,7 @@ public class AlexaApi {
             return ResponseEntity.badRequest().build();
         }
         SelfServiceResponse response = alexaService.getServiceResponse(speechletRequest, alexaRequest);
-        LOGGER.info("response :"+response);
+        LOGGER.info("response object :"+response);
         return ResponseEntity.ok(response);
     }
 
