@@ -63,6 +63,7 @@ public class AlexaService {
                     ));
         }
         alexaRequest.session.attributes.put("previousIntent", intentRequest.getIntent().getName());
+        LOGGER.info("Intent name is :"+intentRequest.getIntent().getName());
         if (intentRequest.getIntent().getName().equalsIgnoreCase("GetInvoiceIntent")) {
             return getInvoiceResponse(intentRequest, alexaRequest);
         } else if (intentRequest.getIntent().getName().equalsIgnoreCase("GetDataIntent")) {
