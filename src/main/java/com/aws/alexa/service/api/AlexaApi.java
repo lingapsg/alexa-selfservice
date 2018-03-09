@@ -46,8 +46,8 @@ public class AlexaApi {
 
     @RequestMapping(method = POST, produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity getResponse(@RequestBody SelfServiceRequest alexaRequest) {
-        LOGGER.info("Request :"+alexaRequest);
-        LOGGER.info("Request Intent type :"+alexaRequest.request.type);
+        LOGGER.info("Request :" + alexaRequest);
+        LOGGER.info("Request Intent type :" + alexaRequest.request.type);
         CoreSpeechletRequest speechletRequest = deserialize(alexaRequest.request);
         if (!verifyRequest(alexaRequest, speechletRequest)) {
             return ResponseEntity.badRequest().build();
@@ -106,10 +106,11 @@ public class AlexaApi {
                     .withRequestId(alexaRequest.requestId)
                     .withTimestamp(getDateFromISOString(alexaRequest.timestamp))
                     .withReason(SessionEndedRequest.Reason.valueOf(alexaRequest.reason))
-                    .withError(Error.builder()
-                            .withMessage(alexaRequest.error.error)
-                            .withType(ErrorType.valueOf(alexaRequest.error.type))
-                            .build())
+                    .withError(
+                            nonNull(alexaRequest.error) ? Error.builder()
+                                    .withMessage(alexaRequest.error.error)
+                                    .withType(ErrorType.valueOf(alexaRequest.error.type))
+                                    .build() : null)
                     .build();
         } else {
             return null;
