@@ -8,6 +8,7 @@ import com.aws.alexa.service.application.AlexaService;
 import com.aws.alexa.service.domain.request.AlexaRequest;
 import com.aws.alexa.service.domain.request.AlexaSession;
 import com.aws.alexa.service.domain.request.SelfServiceRequest;
+import com.aws.alexa.service.domain.response.SelfServiceResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import org.slf4j.Logger;
@@ -52,7 +53,9 @@ public class AlexaApi {
         if (!verifyRequest(alexaRequest, speechletRequest)) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(alexaService.getServiceResponse(speechletRequest, alexaRequest));
+        SelfServiceResponse response = alexaService.getServiceResponse(speechletRequest, alexaRequest);
+        LOGGER.info("response :"+response);
+        return ResponseEntity.ok(response);
     }
 
     private boolean verifyRequest(SelfServiceRequest alexaRequest, CoreSpeechletRequest speechletRequest) {
