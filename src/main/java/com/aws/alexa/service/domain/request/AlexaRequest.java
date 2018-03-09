@@ -37,11 +37,11 @@ public class AlexaRequest {
     public static class Error {
 
         public final String type;
-        public final String error;
+        public final String message;
 
-        public Error(@JsonProperty("type") String type, @JsonProperty("error") String error) {
+        public Error(@JsonProperty("type") String type, @JsonProperty("message") String message) {
             this.type = type;
-            this.error = error;
+            this.message = message;
         }
     }
 

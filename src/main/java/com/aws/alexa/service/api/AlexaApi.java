@@ -108,7 +108,7 @@ public class AlexaApi {
                     .withReason(SessionEndedRequest.Reason.valueOf(alexaRequest.reason))
                     .withError(
                             nonNull(alexaRequest.error) ? Error.builder()
-                                    .withMessage(alexaRequest.error.error)
+                                    .withMessage(alexaRequest.error.message)
                                     .withType(ErrorType.valueOf(alexaRequest.error.type))
                                     .build() : null)
                     .build();
