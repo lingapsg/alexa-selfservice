@@ -2,6 +2,9 @@ package com.aws.alexa.service.domain.request;
 
 import com.amazon.speech.speechlet.Application;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,5 +30,20 @@ public class AlexaSession {
         this.application = application;
         this.attributes = nonNull(attributes) ? attributes : new HashMap<>();
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return EqualsBuilder.reflectionEquals(this, o);
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
     }
 }

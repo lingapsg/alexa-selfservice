@@ -10,6 +10,8 @@ import com.aws.alexa.service.domain.request.AlexaSession;
 import com.aws.alexa.service.domain.request.SelfServiceRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +30,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @RequestMapping("/api/v1/self-service")
 public class AlexaApi {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AlexaApi.class);
+
     private static final String appId = "amzn1.ask.skill.488e82f8-4b65-42b8-8b39-362f6eef7057";
 
     private final TimestampSpeechletRequestVerifier timestampSpeechletRequestVerifier;
@@ -42,7 +46,8 @@ public class AlexaApi {
 
     @RequestMapping(method = POST, produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity getResponse(@RequestBody SelfServiceRequest alexaRequest) {
-        System.out.println(alexaRequest);
+        LOGGER.info("Request :"+alexaRequest);
+        LOGGER.info("Request Intent type :"+alexaRequest.request.type);
         CoreSpeechletRequest speechletRequest = deserialize(alexaRequest.request);
         if (!verifyRequest(alexaRequest, speechletRequest)) {
             return ResponseEntity.badRequest().build();
