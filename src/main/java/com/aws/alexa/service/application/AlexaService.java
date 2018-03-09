@@ -100,8 +100,8 @@ public class AlexaService {
         );
     }
 
-    private SelfServiceResponse getLaunchIntentResponse(LaunchRequest launchRequest, SelfServiceRequest selfServiceRequest) {
-        return new SelfServiceResponse(selfServiceRequest.version, null, new AlexaResponse(
+    private SelfServiceResponse getLaunchIntentResponse(LaunchRequest launchRequest, SelfServiceRequest alexaRequest) {
+        return new SelfServiceResponse(alexaRequest.version, null, new AlexaResponse(
                 new AlexaOutputSpeech(SpeechType.SSML, "<speak>Welcome to Mitt3. </speak>", "SSML"),
                 null,
                 new AlexaOutputSpeech(SpeechType.PLAINTEXT, "I can help you to get your invoice amount. Please provide your mobile number", null),
@@ -112,7 +112,17 @@ public class AlexaService {
 
     private SelfServiceResponse getSessionEndedRequest(SessionEndedRequest sessionEndedRequest, SelfServiceRequest alexaRequest) {
         LOGGER.info("Considered as sessionEndedRequest");
-        return null;
+        alexaRequest.session.attributes.clear();
+        return new SelfServiceResponse(
+                alexaRequest.version, alexaRequest.session.attributes,
+                new AlexaResponse(
+                        getAlexaOutput(SpeechType.PLAINTEXT, "Something went wrong"),
+                        null,
+                        null,
+                        true,
+                        null
+                )
+        );
     }
 
     private boolean validateMsisdn(AlexaSession session, Intent intent) {
