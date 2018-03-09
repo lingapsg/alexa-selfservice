@@ -100,6 +100,7 @@ public class AlexaApi {
                     .withIntent(alexaRequest.intent)
                     .build();
         } else if (alexaRequest.type.equalsIgnoreCase("SessionEndedRequest")) {
+            LOGGER.info("Deserializing SessionEndedRequest");
             return SessionEndedRequest.builder()
                     .withLocale(new Locale(alexaRequest.locale))
                     .withRequestId(alexaRequest.requestId)

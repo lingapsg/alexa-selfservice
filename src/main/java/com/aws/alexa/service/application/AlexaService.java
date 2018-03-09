@@ -15,6 +15,8 @@ import com.aws.alexa.service.domain.response.SpeechType;
 import com.aws.alexa.service.repository.DataRepository;
 import com.aws.alexa.service.repository.InvoiceRepository;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,8 @@ import static com.aws.alexa.service.util.AlexaSpeechOutputFactory.getAlexaOutput
 
 @Service
 public class AlexaService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AlexaService.class);
 
     private final InvoiceRepository invoiceRepository;
     private final DataRepository dataRepository;
@@ -33,6 +37,7 @@ public class AlexaService {
     }
 
     public SelfServiceResponse getServiceResponse(CoreSpeechletRequest request, SelfServiceRequest alexaRequest) {
+        LOGGER.info(": In Service :"+alexaRequest.request.type);
         if (request instanceof LaunchRequest) {
             return getLaunchIntentResponse((LaunchRequest) request, alexaRequest);
         } else if (request instanceof IntentRequest) {
@@ -105,6 +110,7 @@ public class AlexaService {
     }
 
     private SelfServiceResponse getSessionEndedRequest(SessionEndedRequest sessionEndedRequest, SelfServiceRequest alexaRequest) {
+        LOGGER.info("Considered as sessionEndedRequest");
         return null;
     }
 
