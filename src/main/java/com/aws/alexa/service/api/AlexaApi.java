@@ -28,6 +28,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @RequestMapping("/api/v1/self-service")
 public class AlexaApi {
 
+    private static final String appId = "amzn1.ask.skill.488e82f8-4b65-42b8-8b39-362f6eef7057";
+
     private final TimestampSpeechletRequestVerifier timestampSpeechletRequestVerifier;
     private final AlexaService alexaService;
 
@@ -52,7 +54,7 @@ public class AlexaApi {
         if (alexaRequest.session.isNew) {
             // make initialization
         }
-        return true;
+        return alexaRequest.session.application.getApplicationId().equals(appId);
         /*return timestampSpeechletRequestVerifier.verify(
                 speechletRequest,
                 convertToAmazonSession(alexaRequest.session));*/

@@ -53,7 +53,7 @@ public class AlexaService {
                             getAlexaOutput(SpeechType.PLAINTEXT, "Please provide your mobile number"),
                             null,
                             getAlexaOutput(SpeechType.PLAINTEXT, "Please provide your mobile number"),
-                            true,
+                            false,
                             null
                     ));
         }
