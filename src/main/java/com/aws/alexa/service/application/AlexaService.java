@@ -69,7 +69,7 @@ public class AlexaService {
         } else if (intentRequest.getIntent().getName().equalsIgnoreCase("GetDataIntent")) {
             return getDataResponse(intentRequest, alexaRequest);
         } else if (intentRequest.getIntent().getName().equalsIgnoreCase("mobileNoIntent")) {
-            String previousIntent = (String) alexaRequest.session.attributes.get("previousIntent");
+            String previousIntent = StringUtils.trimToEmpty((String) alexaRequest.session.attributes.get("previousIntent"));
             if (previousIntent.equalsIgnoreCase("GetInvoiceIntent")) {
                 return getInvoiceResponse(intentRequest, alexaRequest);
             } else if (previousIntent.equalsIgnoreCase("GetDataIntent")) {

@@ -8,6 +8,8 @@ import com.aws.alexa.service.application.AlexaService;
 import com.aws.alexa.service.domain.request.AlexaRequest;
 import com.aws.alexa.service.domain.request.AlexaSession;
 import com.aws.alexa.service.domain.request.SelfServiceRequest;
+import com.aws.alexa.service.domain.response.AlexaCard;
+import com.aws.alexa.service.domain.response.AlexaResponse;
 import com.aws.alexa.service.domain.response.SelfServiceResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
@@ -19,10 +21,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.Locale;
 
+import static com.aws.alexa.service.domain.response.CardType.LINKACCOUNT;
+import static com.aws.alexa.service.domain.response.SpeechType.PLAINTEXT;
+import static com.aws.alexa.service.util.AlexaSpeechOutputFactory.checkAccountLinked;
+import static com.aws.alexa.service.util.AlexaSpeechOutputFactory.getAlexaOutput;
 import static java.util.Objects.nonNull;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -52,9 +57,26 @@ public class AlexaApi {
         CoreSpeechletRequest speechletRequest = deserialize(alexaRequest.request);
         if (!verifyRequest(alexaRequest, speechletRequest)) {
             return ResponseEntity.badRequest().build();
+        } else if (!checkAccountLinked(alexaRequest)) {
+            SelfServiceResponse response = new SelfServiceResponse(
+                    alexaRequest.version,
+                    alexaRequest.session.attributes,
+                    new AlexaResponse(
+                            getAlexaOutput(PLAINTEXT, "Please go to your Alexa app and link your account."),
+                            new AlexaCard(
+                                    LINKACCOUNT,
+                                    "Link Account",
+                                    "Your account is not linked. Please link your account.",
+                                    "Your account is not linked. Please link your account."
+                            ),
+                            getAlexaOutput(PLAINTEXT, "Please go to your Alexa app and link your account."),
+                            true, null
+                    )
+            );
+            return ResponseEntity.ok(response);
         }
         SelfServiceResponse response = alexaService.getServiceResponse(speechletRequest, alexaRequest);
-        LOGGER.info("response object :"+response);
+        LOGGER.info("response object :" + response);
         return ResponseEntity.ok(response);
     }
 
