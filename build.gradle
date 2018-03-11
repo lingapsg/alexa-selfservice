@@ -29,12 +29,18 @@ repositories {
 
 ext {
 	springCloudVersion = 'Edgware.BUILD-SNAPSHOT'
+    retrofitVersion = '2.3.0'
 }
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile('org.springframework.boot:spring-boot-starter-logging')
 	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.security.oauth:spring-security-oauth2')
+    compile group: 'com.squareup.retrofit2', name: 'retrofit', version: "${retrofitVersion}"
+    compile group: 'com.squareup.retrofit2', name: 'converter-gson', version: "${retrofitVersion}"
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
     compile('com.amazonaws:aws-lambda-java-core:1.1.0')
     compile('com.amazon.alexa:alexa-skills-kit:1.8.1')
 
