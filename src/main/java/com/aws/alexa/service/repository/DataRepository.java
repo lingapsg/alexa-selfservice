@@ -60,7 +60,7 @@ public class DataRepository {
             if (ValidationUtil.isValidMsisdn(receiverMsisdnSlot.getValue()) && ValidationUtil.isValidData(dataSlot.getValue())) {
                 alexaRequest.session.attributes.remove("receiverMsisdn");
                 return getAlexaOutput(SpeechType.PLAINTEXT,
-                        String.format("We have transferred %s to mobilenumber %s", dataSlot.getValue(), receiverMsisdnSlot.getValue()));
+                        String.format("We have transferred %s to mobilenumber %s", dataSlot.getValue(), ValidationUtil.convertToText(receiverMsisdnSlot.getValue())));
             } else {
                 return getAlexaOutput(SpeechType.PLAINTEXT, "You have not provided valid input to transfer data");
             }
