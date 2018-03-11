@@ -49,7 +49,10 @@ public class DataRepository {
         });
         Slot receiverMsisdnSlot = intent.getSlot("receiverMsisdn");
         Slot dataSlot = intent.getSlot("data");
-        if (alexaRequest.session.attributes.get("receiverMsisdn") == null || receiverMsisdnSlot == null || receiverMsisdnSlot.getValue() == null) {
+        if (receiverMsisdnSlot != null && receiverMsisdnSlot.getValue()!=null) {
+            alexaRequest.session.attributes.put("receiverMsisdn", receiverMsisdnSlot.getValue());
+        }
+        if (alexaRequest.session.attributes.get("receiverMsisdn") == null) {
             return getAlexaOutput(SpeechType.PLAINTEXT, "Please provide mobile number and amount of mobile data to transfer");
         } else if (dataSlot == null || dataSlot.getValue() == null) {
             return getAlexaOutput(SpeechType.PLAINTEXT, "Please provide amount of data to transfer.");
