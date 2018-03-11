@@ -6,10 +6,12 @@ import com.aws.alexa.service.domain.request.SelfServiceRequest;
 import com.aws.alexa.service.domain.response.AlexaOutputSpeech;
 import com.aws.alexa.service.domain.response.SpeechType;
 import com.aws.alexa.service.util.ValidationUtil;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import java.io.IOException;
 import java.util.Calendar;
 
 import static com.aws.alexa.service.util.AlexaSpeechOutputFactory.getAlexaOutput;
@@ -37,6 +39,11 @@ public class DataRepository {
     }
 
     public AlexaOutputSpeech sendDataResponse(Intent intent, SelfServiceRequest alexaRequest) {
+        try {
+            LOGGER.info("Intents "+new ObjectMapper().writeValueAsString(intent));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         intent.getSlots().forEach((s, slot) -> {
             LOGGER.info("slot "+s);
         });
