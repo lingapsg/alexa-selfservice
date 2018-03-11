@@ -43,7 +43,7 @@ public class ValidationUtil {
     }
 
     public static boolean isValidData(String dataSlotValue) {
-        return dataSlotValue.replaceAll("[*a-zA-Z]", "").contains("[*0-9]");
+        return dataSlotValue.replaceAll("[*a-zA-Z]", "").trim().matches("[*0-9]");
     }
 
     public static String detectUnit(String dataValue) {

@@ -1,6 +1,12 @@
 server:
-  port: 8080
+  port: 8181
 
 management:
   security:
     enabled: false
+
+
+security:
+  oauth2:
+    resource:
+      userInfoUri: https://myoauth-service.herokuapp.com/user
