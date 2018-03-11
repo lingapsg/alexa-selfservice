@@ -37,6 +37,9 @@ public class DataRepository {
     }
 
     public AlexaOutputSpeech sendDataResponse(Intent intent, SelfServiceRequest alexaRequest) {
+        intent.getSlots().forEach((s, slot) -> {
+            LOGGER.info("slot "+s);
+        });
         Slot receiverMsisdnSlot = intent.getSlot("receiverMsisdn");
         Slot dataSlot = intent.getSlot("data");
         if (alexaRequest.session.attributes.get("receiverMsisdn") == null || receiverMsisdnSlot == null || receiverMsisdnSlot.getValue() == null) {
