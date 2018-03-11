@@ -35,4 +35,22 @@ public class DataRepository {
         String outputText = "You have 300 MB data left for the month of " + ValidationUtil.getMonthByOthers(month);
         return getAlexaOutput(SpeechType.PLAINTEXT, outputText);
     }
+
+    public AlexaOutputSpeech sendDataResponse(Intent intent, SelfServiceRequest alexaRequest) {
+        Slot receiverMsisdnSlot = intent.getSlot("receiverMsisdn");
+        Slot dataSlot = intent.getSlot("data");
+        if (alexaRequest.session.attributes.get("receiverMsisdn") == null || receiverMsisdnSlot == null || receiverMsisdnSlot.getValue() == null) {
+            return getAlexaOutput(SpeechType.PLAINTEXT, "Please provide mobile number and amount of mobile data to transfer");
+        } else if (dataSlot == null || dataSlot.getValue() == null) {
+            return getAlexaOutput(SpeechType.PLAINTEXT, "Please provide amount of data to transfer.");
+        } else {
+            if (ValidationUtil.isValidMsisdn(receiverMsisdnSlot.getValue()) && ValidationUtil.isValidData(dataSlot.getValue())) {
+                alexaRequest.session.attributes.remove("receiverMsisdn");
+                return getAlexaOutput(SpeechType.PLAINTEXT,
+                        String.format("We have transferred %s to mobilenumber %s", dataSlot.getValue(), receiverMsisdnSlot.getValue()));
+            } else {
+                return getAlexaOutput(SpeechType.PLAINTEXT, "You have not provided valid input to transfer data");
+            }
+        }
+    }
 }

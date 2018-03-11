@@ -75,11 +75,18 @@ public class AlexaService {
             } else if (previousIntent.equalsIgnoreCase("GetDataIntent")) {
                 return getDataResponse(intentRequest, alexaRequest);
             }
+        } else if (intentRequest.getIntent().getName().equalsIgnoreCase("SendDataIntent")) {
+            return sendDataResponse(intentRequest, alexaRequest);
         }
         return getSelfServiceResponse(
                 getAlexaOutput(SpeechType.PLAINTEXT, "Hey I can help you to get your invoice amount"),
                 alexaRequest
         );
+    }
+
+    private SelfServiceResponse sendDataResponse(IntentRequest intentRequest, SelfServiceRequest alexaRequest) {
+        AlexaOutputSpeech outputSpeech = dataRepository.sendDataResponse(intentRequest.getIntent(), alexaRequest);
+        return getSelfServiceResponse(outputSpeech, alexaRequest);
     }
 
     private SelfServiceResponse getDataResponse(IntentRequest intentRequest, SelfServiceRequest alexaRequest) {
