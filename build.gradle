@@ -36,7 +36,11 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile('org.springframework.boot:spring-boot-starter-logging')
 	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('org.springframework.security.oauth:spring-security-oauth2')
+//	compile('org.springframework.security.oauth:spring-security-oauth2')
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.9'
+// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.9'
     compile group: 'com.squareup.retrofit2', name: 'retrofit', version: "${retrofitVersion}"
     compile group: 'com.squareup.retrofit2', name: 'converter-gson', version: "${retrofitVersion}"
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3

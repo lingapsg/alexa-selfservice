@@ -6,7 +6,7 @@ import com.aws.alexa.service.domain.request.SelfServiceRequest;
 import com.aws.alexa.service.domain.response.AlexaOutputSpeech;
 import com.aws.alexa.service.domain.response.SpeechType;
 import com.aws.alexa.service.util.ValidationUtil;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
